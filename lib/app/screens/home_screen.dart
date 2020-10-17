@@ -8,23 +8,34 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Home'),
       ),
-      body: ListView.builder(
-          itemBuilder: (ctx, index) {
-            return Container(
-              child: Text('$index'),
-              padding: EdgeInsets.all(8),
+      body: StreamBuilder(
+        stream: Firestore.instance
+            .collection('chats/mwwwLkqAAIL6rb6cqD0V/messages')
+            .snapshots(),
+        builder: (ctx, streamSnapshot) {
+          if (streamSnapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          },
-          itemCount: 10),
+          }
+
+          final documents = streamSnapshot.data.documents;
+          return ListView.builder(
+              itemBuilder: (ctx, index) {
+                return Container(
+                  child: Text(documents[index]['text']),
+                  padding: EdgeInsets.all(8),
+                );
+              },
+              itemCount: documents.length);
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
           Firestore.instance
               .collection('chats/mwwwLkqAAIL6rb6cqD0V/messages')
-              .snapshots()
-              .listen((data) {
-            print(data.documents[0].data);
-          });
+              .add({'text': 'New message!'});
         },
       ),
     );
