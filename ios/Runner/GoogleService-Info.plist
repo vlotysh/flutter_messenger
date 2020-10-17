@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>978678091188-p8lqpcs8355o36a6c61dermdimrr3qpl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.978678091188-p8lqpcs8355o36a6c61dermdimrr3qpl</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDp99V4kt78SQAgSGLp4860gTTSduAtkLA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>978678091188</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.lotysh.messenger</string>
+	<key>PROJECT_ID</key>
+	<string>app-mobile-app-c8573</string>
+	<key>STORAGE_BUCKET</key>
+	<string>app-mobile-app-c8573.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:978678091188:ios:365f55de9314ea77c8b6e1</string>
+	<key>DATABASE_URL</key>
+	<string>https://app-mobile-app-c8573.firebaseio.com</string>
+</dict>
+</plist>
