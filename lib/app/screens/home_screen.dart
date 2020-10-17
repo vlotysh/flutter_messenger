@@ -7,9 +7,14 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Home'),
       ),
-      body: Center(
-        child: Text('Home'),
-      ),
+      body: ListView.builder(
+          itemBuilder: (ctx, index) {
+            return Container(
+              child: Text('$index'),
+              padding: EdgeInsets.all(8),
+            );
+          },
+          itemCount: 10),
     );
   }
 }

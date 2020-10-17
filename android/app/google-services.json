@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "978678091188",
+    "firebase_url": "https://app-mobile-app-c8573.firebaseio.com",
+    "project_id": "app-mobile-app-c8573",
+    "storage_bucket": "app-mobile-app-c8573.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:978678091188:android:28e37778a1b29270c8b6e1",
+        "android_client_info": {
+          "package_name": "com.lotysh.messenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "978678091188-ch5r2q5k5ee23b584hootb68iboktvou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6tUSzhWGBtOIA0kBLdJKI8SzFjL0kWq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "978678091188-ch5r2q5k5ee23b584hootb68iboktvou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
