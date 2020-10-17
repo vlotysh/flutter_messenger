@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/app/widgets/auth/auth_form.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends StatefulWidget {
+  @override
+  _AuthScreenState createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  Function _submitAuthForm =
+      (String email, String password, String username, bool isLogin) {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
-      body: Center(
-        child: Text('auth'),
-      ),
+      backgroundColor: Theme.of(context).primaryColor,
+      body: AuthForm(_submitAuthForm),
     );
   }
 }
