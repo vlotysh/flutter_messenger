@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/app/screens/auth_screen.dart';
+import 'package:messenger/app/screens/home_screen.dart';
 
 class Messenger extends StatelessWidget {
   @override
@@ -15,6 +17,14 @@ class Messenger extends StatelessWidget {
                 textTheme: ButtonTextTheme.primary,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)))),
-        home: AuthScreen(),
+        home: StreamBuilder(
+            stream: FirebaseAuth.instance.onAuthStateChanged,
+            builder: (cxt, userSnapshot) {
+              if (userSnapshot.hasData) {
+                return HomeScreen();
+              }
+
+              return AuthScreen();
+            }),
       );
 }
