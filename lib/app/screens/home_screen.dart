@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,6 +16,17 @@ class HomeScreen extends StatelessWidget {
             );
           },
           itemCount: 10),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Firestore.instance
+              .collection('chats/mwwwLkqAAIL6rb6cqD0V/messages')
+              .snapshots()
+              .listen((data) {
+            print(data.documents[0].data);
+          });
+        },
+      ),
     );
   }
 }
