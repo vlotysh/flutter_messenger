@@ -1,6 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:messenger/app/widgets/chat/messageInput.dart';
+import 'package:messenger/app/widgets/chat/messages.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -32,36 +33,10 @@ class HomeScreen extends StatelessWidget {
               })
         ],
       ),
-      body: StreamBuilder(
-        stream: Firestore.instance
-            .collection('chats/mwwwLkqAAIL6rb6cqD0V/messages')
-            .snapshots(),
-        builder: (ctx, streamSnapshot) {
-          if (streamSnapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          final documents = streamSnapshot.data.documents;
-          return ListView.builder(
-              itemBuilder: (ctx, index) {
-                return Container(
-                  child: Text(documents[index]['text']),
-                  padding: EdgeInsets.all(8),
-                );
-              },
-              itemCount: documents.length);
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Firestore.instance
-              .collection('chats/mwwwLkqAAIL6rb6cqD0V/messages')
-              .add({'text': 'New message!'});
-        },
-      ),
+      body: Container(
+          child: Column(
+        children: [Expanded(child: Messages()), MessageInput()],
+      )),
     );
   }
 }
