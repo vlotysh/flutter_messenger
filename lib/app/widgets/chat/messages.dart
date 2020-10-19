@@ -23,7 +23,9 @@ class Messages extends StatelessWidget {
           return ListView.builder(
               reverse: true,
               itemBuilder: (ctx, index) {
-                return MessageBubble(chatDocs[index]['text'],
+                return MessageBubble(
+                    chatDocs[index]['text'],
+                    chatDocs[index]['username'],
                     chatDocs[index]['userId'] == snapshot.data.uid,
                     key: ValueKey(chatDocs[index].documentID));
               },

@@ -15,11 +15,14 @@ class _MessageInputState extends State<MessageInput> {
   void _sendMessage() async {
     //  FocusScope.of(context).unfocus();
     final user = await FirebaseAuth.instance.currentUser();
+    final userData =
+        await Firestore.instance.collection('users').document(user.uid).get();
 
     Firestore.instance.collection('chat').add({
       'text': _enteredMessage,
       'createdAt': Timestamp.now(),
-      'userId': user.uid
+      'userId': user.uid,
+      'username': userData['username']
     });
     setState(() {
       _enteredMessage = '';
@@ -42,6 +45,12 @@ class _MessageInputState extends State<MessageInput> {
                 setState(() {
                   _enteredMessage = value;
                 });
+              },
+              onEditingComplete: () {
+                if (_enteredMessage.trim().isNotEmpty) {
+                  _enteredMessage = _controller.value.text;
+                  _sendMessage();
+                }
               },
             ),
           ),
