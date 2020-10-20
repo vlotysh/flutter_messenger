@@ -6,7 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:messenger/app/widgets/auth/auth_form.dart';
-import 'package:path/path.dart' as Path;
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -34,11 +33,10 @@ class _AuthScreenState extends State<AuthScreen> {
 
       StorageReference storageReference = FirebaseStorage.instance
           .ref()
-          .child('avatars/${Path.basename(_userImage.path)}');
+          .child('avatars')
+          .child('${authResult.user.uid}.jpg');
 
-      StorageUploadTask uploadTask = storageReference.putFile(_userImage);
-      await uploadTask.onComplete;
-
+      await storageReference.putFile(_userImage).onComplete;
       var url = await storageReference.getDownloadURL();
 
       await Firestore.instance
@@ -47,7 +45,7 @@ class _AuthScreenState extends State<AuthScreen> {
           .setData({
         'username': username,
         'email': email,
-        'url': url,
+        'avatarUrl': url,
       });
     } on PlatformException catch (error) {
       var message = 'An error occurred, please check your credentials';

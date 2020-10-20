@@ -19,8 +19,8 @@ class _UserImagePickerState extends State<UserImagePicker> {
     final imagePicker = ImagePicker();
     final image = await imagePicker.getImage(
         source: ImageSource.camera,
-        maxWidth: 600,
-        maxHeight: 600,
+        imageQuality: 50,
+        maxWidth: 150,
         preferredCameraDevice: CameraDevice.front);
 
     final imageFile = File(image.path);

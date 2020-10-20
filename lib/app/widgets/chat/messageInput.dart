@@ -18,10 +18,12 @@ class _MessageInputState extends State<MessageInput> {
     final userData =
         await Firestore.instance.collection('users').document(user.uid).get();
 
+    print(userData['avatarUrl']);
     Firestore.instance.collection('chat').add({
       'text': _enteredMessage,
       'createdAt': Timestamp.now(),
       'userId': user.uid,
+      'avatarUrl': userData['avatarUrl'],
       'username': userData['username']
     });
     setState(() {
