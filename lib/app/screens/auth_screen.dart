@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:messenger/app/widgets/auth/auth_form.dart';
+import 'package:path/path.dart' as Path;
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -14,7 +18,7 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isInProgress = false;
 
   void _submitAuthForm(String email, String password, String username,
-      bool isLogin, BuildContext ctx) async {
+      File _userImage, bool isLogin, BuildContext ctx) async {
     AuthResult authResult;
     try {
       setState(() {
@@ -28,16 +32,22 @@ class _AuthScreenState extends State<AuthScreen> {
             email: email, password: password);
       }
 
+      StorageReference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('avatars/${Path.basename(_userImage.path)}');
+
+      StorageUploadTask uploadTask = storageReference.putFile(_userImage);
+      await uploadTask.onComplete;
+
+      var url = await storageReference.getDownloadURL();
+
       await Firestore.instance
           .collection('users')
           .document('${authResult.user.uid}')
           .setData({
         'username': username,
         'email': email,
-      });
-
-      setState(() {
-        _isInProgress = false;
+        'url': url,
       });
     } on PlatformException catch (error) {
       var message = 'An error occurred, please check your credentials';
