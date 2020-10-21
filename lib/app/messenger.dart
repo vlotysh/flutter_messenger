@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:messenger/app/screens/auth_screen.dart';
 import 'package:messenger/app/screens/home_screen.dart';
+import 'package:messenger/app/widgets/auth/splash_screen.dart';
 
 class Messenger extends StatelessWidget {
   @override
@@ -27,6 +28,10 @@ class Messenger extends StatelessWidget {
           home: StreamBuilder(
               stream: FirebaseAuth.instance.onAuthStateChanged,
               builder: (cxt, userSnapshot) {
+                if (userSnapshot.connectionState == ConnectionState.waiting) {
+                  return SplashScreen();
+                }
+
                 if (userSnapshot.hasData) {
                   return HomeScreen();
                 }

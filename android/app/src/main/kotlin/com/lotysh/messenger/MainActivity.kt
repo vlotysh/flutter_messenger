@@ -7,7 +7,7 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 
 
 class MainActivity: FlutterActivity() {
-    override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
-        GeneratedPluginRegistrant.registerWith(flutterEngine)
-    }
+//    override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
+ //       GeneratedPluginRegistrant.registerWith(flutterEngine)
+ //   }
 }

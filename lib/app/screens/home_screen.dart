@@ -12,7 +12,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
+    super.initState();
     final fbm = FirebaseMessaging();
+    fbm.requestNotificationPermissions();
     fbm.configure(
       onMessage: (msg) {
         print(msg);
@@ -28,8 +30,10 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
 
+    fbm.getToken().then((value) => print(value));
+//send it to back end for send specific device
+    fbm.subscribeToTopic('chat'); //listen topic it can be user
     // TODO: implement initState
-    super.initState();
   }
 
   @override
@@ -39,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('Home'),
         actions: [
           DropdownButton(
+              underline: Container(),
               icon: Icon(Icons.more_vert,
                   color: Theme.of(context).primaryIconTheme.color),
               items: [
