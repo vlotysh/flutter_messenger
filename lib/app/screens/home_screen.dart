@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:messenger/app/provider/SelectProvider.dart';
 import 'package:messenger/app/widgets/chat/messageInput.dart';
 import 'package:messenger/app/widgets/chat/messages.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -38,9 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SelectProvider selectProvider = Provider.of<SelectProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Center(
+            child: selectProvider.items.length > 0
+                ? Text('Selected ${selectProvider.items.length}')
+                : Text('Home')),
         actions: [
           DropdownButton(
               underline: Container(),

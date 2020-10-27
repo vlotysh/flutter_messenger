@@ -8,24 +8,32 @@ class MessageBubble extends StatelessWidget {
 
   MessageBubble({this.key});
 
+  void toggleSelected(context, Message message) {
+    Provider.of<SelectProvider>(context, listen: false).toggle(message);
+  }
+
   @override
   Widget build(BuildContext context) {
-    SelectProvider selectProvider =
-        Provider.of<SelectProvider>(context, listen: false);
-
-    Message message = Provider.of<Message>(context, listen: false);
+    SelectProvider selectProvider = Provider.of<SelectProvider>(context);
+    List<Message> selectedItems = selectProvider.items;
+    Message message = Provider.of<Message>(context);
 
     return GestureDetector(
-      onLongPress: () {},
+      onLongPress: () {
+        if (selectedItems.length == 0) {
+          toggleSelected(context, message);
+        }
+      },
       child: Stack(overflow: Overflow.visible, children: [
         Row(
           mainAxisAlignment:
               message.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
-            Checkbox(
-              value: message.isSelected ? true : false,
+            if (selectedItems.length > 0) Checkbox(
+              value: selectProvider.isSelected(message),
               onChanged: (_) {
-                message.toggleSelect();
+                selectProvider.toggle(message);
+                //message.toggleSelect();
               },
             ),
             Container(

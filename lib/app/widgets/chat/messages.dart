@@ -31,16 +31,14 @@ class _MessagesState extends State<Messages> {
 
           for (int i = 0; i < chatDocs.length; i++) {
             print(chatDocs[i]['text']);
-            messages.addMessage(
-                chatDocs[i].documentID,
-                Message(
-                  id: chatDocs[i].documentID,
-                  text: chatDocs[i]['text'],
-                  username: chatDocs[i]['username'],
-                  avatarUrl: chatDocs[i]['avatarUrl'],
-                  isMe: chatDocs[i]['userId'] == value.uid,
-                  isSelected: false,
-                ));
+            messages.addMessage(Message(
+              id: chatDocs[i].documentID,
+              text: chatDocs[i]['text'],
+              username: chatDocs[i]['username'],
+              avatarUrl: chatDocs[i]['avatarUrl'],
+              isMe: chatDocs[i]['userId'] == value.uid,
+              isSelected: false,
+            ));
           }
         });
       });
@@ -51,17 +49,15 @@ class _MessagesState extends State<Messages> {
   Widget build(BuildContext context) {
     return Consumer<provider.Messages>(
       builder: (context, provider.Messages messages, child) {
-        Map<String, Message> messagesMap = messages.messages;
-        var keys = messagesMap.keys.toList();
+        List<Message> messagesList = messages.messages;
 
         return ListView.builder(
             reverse: true,
             itemBuilder: (ctx, index) => ChangeNotifierProvider.value(
                 // DO NOT USER ChangeNotifierProvider -> builder for grid or list
-                value: messagesMap[keys[index]],
-                child:
-                    MessageBubble(key: ValueKey(messagesMap[keys[index]].id))),
-            itemCount: messagesMap.length);
+                value: messagesList[index],
+                child: MessageBubble(key: ValueKey(messagesList[index].id))),
+            itemCount: messagesList.length);
       },
       // Build the expensive widget here.
     );
