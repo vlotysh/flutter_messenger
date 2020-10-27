@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:messenger/app/provider/Messages.dart';
 import 'package:messenger/app/provider/SelectProvider.dart';
 import 'package:messenger/app/screens/auth_screen.dart';
 import 'package:messenger/app/screens/home_screen.dart';
@@ -17,7 +18,8 @@ class Messenger extends StatelessWidget {
         },
         child: MultiProvider(
           providers: [
-            Provider<SelectProvider>(create: (_) => SelectProvider()),
+            ListenableProvider<SelectProvider>(create: (_) => SelectProvider()),
+            ListenableProvider<Messages>(create: (_) => Messages()),
           ],
           child: MaterialApp(
             title: 'Messenger',

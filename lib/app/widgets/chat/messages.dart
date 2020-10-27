@@ -2,46 +2,68 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:messenger/app/provider/SelectProvider.dart';
+import 'package:messenger/app/provider/Message.dart';
+import 'package:messenger/app/provider/Messages.dart' as provider;
 import 'package:messenger/app/widgets/chat/message_bubble.dart';
 import 'package:provider/provider.dart';
 
-class Messages extends StatelessWidget {
+class Messages extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    SelectProvider selectProvider = Provider.of<SelectProvider>(context);
-    List<String> selectedItems = selectProvider.items;
-    print(111);
-    return FutureBuilder(
-      future: FirebaseAuth.instance.currentUser(),
-      builder: (ctx, snapshot) => StreamBuilder(
-        stream: Firestore.instance
+  _MessagesState createState() => _MessagesState();
+}
+
+class _MessagesState extends State<Messages> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      provider.Messages messages =
+          Provider.of<provider.Messages>(context, listen: false);
+
+      FirebaseAuth.instance.currentUser().then((FirebaseUser value) {
+        Firestore.instance
             .collection('chat')
             .orderBy('createdAt', descending: true)
-            .snapshots(),
-        builder: (ctx, streamSnapshot) {
-          if (streamSnapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
+            .snapshots()
+            .listen((streamSnapshot) {
+          final chatDocs = streamSnapshot.documents;
 
-          final chatDocs = streamSnapshot.data.documents;
-          return ListView.builder(
-              reverse: true,
-              itemBuilder: (ctx, index) {
-                return MessageBubble(
-                    chatDocs[index].documentID,
-                    chatDocs[index]['text'],
-                    chatDocs[index]['username'],
-                    chatDocs[index]['avatarUrl'],
-                    chatDocs[index]['userId'] == snapshot.data.uid,
-                    selectMode: selectedItems.length > 0,
-                    isSelected:
-                        selectedItems.contains(chatDocs[index].documentID),
-                    key: ValueKey(chatDocs[index].documentID));
-              },
-              itemCount: chatDocs.length);
-        },
-      ),
+          for (int i = 0; i < chatDocs.length; i++) {
+            print(chatDocs[i]['text']);
+            messages.addMessage(
+                chatDocs[i].documentID,
+                Message(
+                  id: chatDocs[i].documentID,
+                  text: chatDocs[i]['text'],
+                  username: chatDocs[i]['username'],
+                  avatarUrl: chatDocs[i]['avatarUrl'],
+                  isMe: chatDocs[i]['userId'] == value.uid,
+                  isSelected: false,
+                ));
+          }
+        });
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<provider.Messages>(
+      builder: (context, provider.Messages messages, child) {
+        Map<String, Message> messagesMap = messages.messages;
+        var keys = messagesMap.keys.toList();
+
+        return ListView.builder(
+            reverse: true,
+            itemBuilder: (ctx, index) => ChangeNotifierProvider.value(
+                // DO NOT USER ChangeNotifierProvider -> builder for grid or list
+                value: messagesMap[keys[index]],
+                child:
+                    MessageBubble(key: ValueKey(messagesMap[keys[index]].id))),
+            itemCount: messagesMap.length);
+      },
+      // Build the expensive widget here.
     );
   }
 }
