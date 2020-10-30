@@ -69,7 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text(_title)),
+        centerTitle: true,
+        title: Text(_title),
         actions: appBarActions,
       ),
       bottomNavigationBar: BottomNavigationBar(
