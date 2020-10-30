@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/app/provider/SelectProvider.dart';
-import 'package:messenger/app/widgets/chat/messageInput.dart';
-import 'package:messenger/app/widgets/chat/messages.dart';
+import 'package:messenger/app/widgets/chat/chat_screen.dart';
+import 'package:messenger/app/widgets/chat/contacts_screen.dart';
+import 'package:messenger/app/widgets/pages/app_bar_messages.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,6 +12,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+  String _title = 'Messages';
+
   @override
   void initState() {
     super.initState();
@@ -40,43 +43,70 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, Widget>> _children = [
+      {
+        'body': ChatsListScreen(),
+        'appBar': AppBarMessages(),
+      },
+      {
+        'body': ContactsScreen(),
+        'appBar': null,
+      },
+    ];
+
     SelectProvider selectProvider = Provider.of<SelectProvider>(context);
+
+    if (selectProvider.items.length > 0) {
+      _title = 'Selected ${selectProvider.items.length}';
+    }
+
+    Map<String, Widget> tabWidget = _children[_currentIndex];
+    List<Widget> appBarActions = [];
+
+    if (tabWidget.containsKey('appBar') && tabWidget['appBar'] != null) {
+      appBarActions.add(tabWidget['appBar']);
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-            child: selectProvider.items.length > 0
-                ? Text('Selected ${selectProvider.items.length}')
-                : Text('Home')),
-        actions: [
-          DropdownButton(
-              underline: Container(),
-              icon: Icon(Icons.more_vert,
-                  color: Theme.of(context).primaryIconTheme.color),
-              items: [
-                DropdownMenuItem(
-                    value: 'logout',
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.exit_to_app),
-                          SizedBox(height: 10),
-                          Text('Logout')
-                        ],
-                      ),
-                    ))
-              ],
-              onChanged: (itemIdentifier) {
-                if (itemIdentifier == 'logout') {
-                  FirebaseAuth.instance.signOut();
-                }
-              })
+        title: Center(child: Text(_title)),
+        actions: appBarActions,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: onTabTapped,
+        currentIndex: _currentIndex,
+        selectedItemColor: Theme.of(context).primaryColor,
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.mail),
+            title: new Text('Messages'),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.person),
+            title: new Text('Contacts'),
+          ),
         ],
       ),
-      body: Container(
-          child: Column(
-        children: [Expanded(child: Messages()), MessageInput()],
-      )),
+      body: tabWidget['body'],
     );
+  }
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+      switch (index) {
+        case 0:
+          {
+            _title = 'Messages';
+          }
+          break;
+        case 1:
+          {
+            _title = 'Contacts';
+          }
+          break;
+      }
+    });
   }
 }

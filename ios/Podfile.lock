@@ -233,6 +233,9 @@ PODS:
   - Firebase/Firestore (6.34.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 1.19.0)
+  - Firebase/Messaging (6.34.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 4.7.1)
   - Firebase/Storage (6.34.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 3.9.1)
@@ -242,6 +245,10 @@ PODS:
     - Flutter
   - firebase_core (0.0.1):
     - Firebase/Core
+    - Flutter
+  - firebase_messaging (0.0.1):
+    - Firebase/Core
+    - Firebase/Messaging
     - Flutter
   - firebase_storage (0.0.1):
     - Firebase/Storage
@@ -286,6 +293,19 @@ PODS:
     - GoogleUtilities/Environment (~> 6.7)
     - GoogleUtilities/UserDefaults (~> 6.7)
     - PromisesObjC (~> 1.2)
+  - FirebaseInstanceID (4.8.0):
+    - FirebaseCore (~> 6.10)
+    - FirebaseInstallations (~> 1.6)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/UserDefaults (~> 6.7)
+  - FirebaseMessaging (4.7.1):
+    - FirebaseCore (~> 6.10)
+    - FirebaseInstanceID (~> 4.7)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
+    - GoogleUtilities/Environment (~> 6.7)
+    - GoogleUtilities/Reachability (~> 6.7)
+    - GoogleUtilities/UserDefaults (~> 6.7)
+    - Protobuf (>= 3.9.2, ~> 3.9)
   - FirebaseStorage (3.9.1):
     - FirebaseCore (~> 6.10)
     - GTMSessionFetcher/Core (~> 1.1)
@@ -366,6 +386,7 @@ PODS:
   - path_provider (0.0.1):
     - Flutter
   - PromisesObjC (1.2.11)
+  - Protobuf (3.13.0)
   - shared_preferences (0.0.1):
     - Flutter
   - sqflite (0.0.1):
@@ -376,6 +397,7 @@ DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
@@ -396,6 +418,8 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseFirestore
     - FirebaseInstallations
+    - FirebaseInstanceID
+    - FirebaseMessaging
     - FirebaseStorage
     - FMDB
     - GoogleAppMeasurement
@@ -408,6 +432,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - Protobuf
 
 EXTERNAL SOURCES:
   cloud_firestore:
@@ -416,6 +441,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_messaging:
+    :path: ".symlinks/plugins/firebase_messaging/ios"
   firebase_storage:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
@@ -440,6 +467,7 @@ SPEC CHECKSUMS:
   Firebase: c23a36d9e4cdf7877dfcba8dd0c58add66358999
   firebase_auth: af8784c4d8d87c36f730a305f97bfbcb24db024b
   firebase_core: 335c02abd48672b7c83c683df833d0488a72e73e
+  firebase_messaging: 21344b3b3a7d9d325d63a70e3750c0c798fe1e03
   firebase_storage: 22966fce4aa6e8848cbaa017df62107cee29f327
   FirebaseAnalytics: 3bb096873ee0d7fa4b6c70f5e9166b6da413cc7f
   FirebaseAuth: c92d49ada7948d1a23466e3db17bc4c2039dddc3
@@ -447,6 +475,8 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 770ac5958e1372ce67959ae4b4f31d8e127c3ac1
   FirebaseFirestore: 9b2f1b9b9a6f2f0b6fb7484b9e32ab7e39243554
   FirebaseInstallations: 466c7b4d1f58fe16707693091da253726a731ed2
+  FirebaseInstanceID: bd3ffc24367f901a43c063b36c640b345a4a5dd1
+  FirebaseMessaging: 5eca4ef173de76253352511aafef774caa1cba2a
   FirebaseStorage: 15e0f15ef3c7fec3d1899d68623e47d4447066b4
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
@@ -464,6 +494,7 @@ SPEC CHECKSUMS:
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
+  Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
 
