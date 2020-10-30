@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/app/provider/SelectProvider.dart';
 import 'package:messenger/app/widgets/chat/chat_screen.dart';
@@ -14,32 +13,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   String _title = 'Messages';
-
-  @override
-  void initState() {
-    super.initState();
-    final fbm = FirebaseMessaging();
-    fbm.requestNotificationPermissions();
-    fbm.configure(
-      onMessage: (msg) {
-        print(msg);
-        return;
-      },
-      onLaunch: (msg) {
-        print(msg);
-        return;
-      },
-      onResume: (msg) {
-        print(msg);
-        return;
-      },
-    );
-
-    fbm.getToken().then((value) => print(value));
-//send it to back end for send specific device
-    fbm.subscribeToTopic('chat'); //listen topic it can be user
-    // TODO: implement initState
-  }
 
   @override
   Widget build(BuildContext context) {

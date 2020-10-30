@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:messenger/app/provider/Messages.dart';
@@ -10,7 +11,38 @@ import 'package:messenger/app/screens/home_screen.dart';
 import 'package:messenger/app/widgets/auth/splash_screen.dart';
 import 'package:provider/provider.dart';
 
-class Messenger extends StatelessWidget {
+class Messenger extends StatefulWidget {
+  @override
+  _MessengerState createState() => _MessengerState();
+}
+
+class _MessengerState extends State<Messenger> {
+  @override
+  void initState() {
+    super.initState();
+    final fbm = FirebaseMessaging();
+    fbm.requestNotificationPermissions();
+    fbm.configure(
+      onMessage: (msg) {
+        print(msg);
+        return;
+      },
+      onLaunch: (msg) {
+        print(msg);
+        return;
+      },
+      onResume: (msg) {
+        print(msg);
+        return;
+      },
+    );
+
+    fbm.getToken().then((value) => print(value));
+//send it to back end for send specific device
+    fbm.subscribeToTopic('chat'); //listen topic it can be user
+    // TODO: implement initState
+  }
+
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: () {
