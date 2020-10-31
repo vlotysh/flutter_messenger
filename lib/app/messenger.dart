@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:messenger/app/provider/Messages.dart';
 import 'package:messenger/app/provider/SelectProvider.dart';
 import 'package:messenger/app/screens/auth_screen.dart';
+import 'package:messenger/app/screens/chat_screen.dart';
 import 'package:messenger/app/screens/home_screen.dart';
 import 'package:messenger/app/widgets/auth/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -55,6 +56,9 @@ class _MessengerState extends State<Messenger> {
           ],
           child: MaterialApp(
             title: 'Messenger',
+            routes: {
+              ChatScreen.routeName: (context) => ChatScreen(),
+            },
             theme: ThemeData(
                 primarySwatch: Colors.pink,
                 accentColor: Colors.deepPurple,

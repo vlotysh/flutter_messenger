@@ -9,6 +9,8 @@ import 'package:messenger/app/widgets/pages/app_bar_messages.dart';
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget implements AppBarActions {
+  static const routeName = 'chatScreen';
+
   @override
   _ChatScreenState createState() => _ChatScreenState();
 
@@ -50,10 +52,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Center(
             child: selectProvider.items.length > 0
                 ? Text('Selected ${selectProvider.items.length}')
-                : Text('Home')),
+                : Text('Chat')),
         actions: [
           DropdownButton(
               underline: Container(),
