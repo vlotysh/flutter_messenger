@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:messenger/app/provider/SelectProvider.dart';
 import 'package:messenger/app/widgets/chat/chat_screen.dart';
 import 'package:messenger/app/widgets/chat/contacts_screen.dart';
+import 'package:messenger/app/widgets/chat/settings_screen.dart';
 import 'package:messenger/app/widgets/pages/app_bar_messages.dart';
 import 'package:provider/provider.dart';
 
@@ -16,13 +17,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, Widget>> _children = [
+    final List<Map<String, Widget>> _tabs = [
       {
         'body': ChatsListScreen(),
         'appBar': AppBarMessages(),
       },
       {
         'body': ContactsScreen(),
+        'appBar': null,
+      },
+      {
+        'body': SettingsScreen(),
         'appBar': null,
       },
     ];
@@ -33,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _title = 'Selected ${selectProvider.items.length}';
     }
 
-    Map<String, Widget> tabWidget = _children[_currentIndex];
+    Map<String, Widget> tabWidget = _tabs[_currentIndex];
     List<Widget> appBarActions = [];
 
     if (tabWidget.containsKey('appBar') && tabWidget['appBar'] != null) {
@@ -59,6 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: new Icon(Icons.person),
             title: new Text('Contacts'),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.settings),
+            title: new Text('Settings'),
           ),
         ],
       ),
