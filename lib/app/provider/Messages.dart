@@ -19,4 +19,12 @@ class Messages extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void clear({bool isGlobal = false}) {
+    _messages = [];
+
+    if (isGlobal == true) {
+      notifyListeners();
+    }
+  }
 }

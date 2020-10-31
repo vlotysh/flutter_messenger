@@ -1,8 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:messenger/app/models/conversation.dart';
+import 'package:messenger/app/service/conversation_service.dart';
 
 class MessageInput extends StatefulWidget {
+  final Conversation conversation;
+  final String userId;
+
+  MessageInput({this.conversation, this.userId});
+
   @override
   _MessageInputState createState() => _MessageInputState();
 }
@@ -18,14 +25,21 @@ class _MessageInputState extends State<MessageInput> {
     final userData =
         await Firestore.instance.collection('users').document(user.uid).get();
 
-    print(userData['avatarUrl']);
-    Firestore.instance.collection('chat').add({
+    Map<String, dynamic> messageBody = {
       'text': _enteredMessage,
       'createdAt': Timestamp.now(),
+      'conversationId': widget.conversation.conversationId,
       'userId': user.uid,
       'avatarUrl': userData['avatarUrl'],
       'username': userData['username']
-    });
+    };
+
+    print(userData['avatarUrl']);
+    Firestore.instance.collection('chat').add(messageBody);
+
+    ConversationService().createOrUpdate(
+        messageBody, [user.uid, widget.userId], widget.conversation);
+
     setState(() {
       _enteredMessage = '';
     });

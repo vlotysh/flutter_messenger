@@ -23,9 +23,10 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
   getContactItem(AsyncSnapshot<QuerySnapshot> snapshot) {
     return snapshot.data.documents.map((doc) {
       return ListTile(
+          key: ValueKey(doc.documentID),
           onTap: () {
             Navigator.pushNamed(context, ChatScreen.routeName,
-                arguments: {'conversationId': doc.documentID});
+                arguments: {'conversationId': doc.data['conversationId']});
           },
           title: new Text(doc["title"]));
     }).toList();

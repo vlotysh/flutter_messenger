@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/app/interfaces/appBarActions.dart';
 import 'package:messenger/app/screens/chat_screen.dart';
@@ -11,30 +12,54 @@ class ContactsScreen extends StatefulWidget implements AppBarActions {
 class _ContactsScreenState extends State<ContactsScreen> {
   @override
   Widget build(BuildContext context) {
-    return new FutureBuilder(
-        future: Firestore.instance
-            .collection('users')
-            .orderBy('username')
-            .getDocuments(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) return new Text("There is no expense");
-          return ListView(children: getContactItem(snapshot));
-        });
+    return FutureBuilder(
+      future: FirebaseAuth.instance.currentUser(),
+      builder: (context, userSnapshot) {
+        if (userSnapshot.hasData) {
+          FirebaseUser currentUser = userSnapshot.data;
+
+          return FutureBuilder(
+              future: Firestore.instance
+                  .collection('users')
+                  .orderBy('username')
+                  .getDocuments(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                return ListView.builder(
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot document =
+                          snapshot.data.documents[index];
+
+                      if (document.documentID != currentUser.uid) {
+                        return getContactItem(document);
+                      } else {
+                        return null;
+                      }
+                    });
+              });
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 
-  getContactItem(AsyncSnapshot<QuerySnapshot> snapshot) {
-    return snapshot.data.documents.map((doc) {
-      return ListTile(
-          onTap: () {
-            Navigator.pushNamed(context, ChatScreen.routeName,
-                arguments: {'userId': doc.documentID});
-          },
-          leading: CircleAvatar(
-            radius: 16,
-            backgroundImage: NetworkImage(doc["avatarUrl"]),
-          ),
-          title: new Text(doc["username"]),
-          subtitle: new Text(doc["email"]));
-    }).toList();
+  ListTile getContactItem(DocumentSnapshot document) {
+    return ListTile(
+        onTap: () {
+          Navigator.pushNamed(context, ChatScreen.routeName,
+              arguments: {'userId': document.documentID});
+        },
+        leading: CircleAvatar(
+          radius: 16,
+          backgroundImage: NetworkImage(document["avatarUrl"]),
+        ),
+        title: new Text(document["username"]),
+        subtitle: new Text(document["email"]));
   }
 }
