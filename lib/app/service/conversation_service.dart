@@ -18,7 +18,7 @@ class ConversationService {
 
     DocumentSnapshot document = snapShot.documents.first;
 
-    return Conversation(conversationId: document.documentID);
+    return Conversation(conversationId: document.data['conversationId']);
   }
 
   Future<Conversation> findByUserId(String userId) async {
@@ -33,7 +33,8 @@ class ConversationService {
     DocumentSnapshot document = snapShot.documents.first;
 
     return Conversation(
-        conversationId: document.documentID); // snapShot.documents.first.data;
+        conversationId:
+            document.data['conversationId']); // snapShot.documents.first.data;
   }
 
   Future<Conversation> createDefaultConversation() async {
@@ -56,15 +57,15 @@ class ConversationService {
       conversation.title = messageBody['text'];
       conversation.name = messageBody['username'];
 
-      print('CREATE!!!!');
       await Firestore.instance
           .collection('conversations')
           .add(conversation.map);
     } else {
       DocumentSnapshot document = snapShot.documents.first;
-      print('UPDATE!!!!');
       conversation = Conversation(
-        conversationId: document.documentID,
+        participants: participants,
+        avatarUrl: messageBody['avatarUrl'],
+        conversationId: conversation.conversationId,
         title: messageBody['text'],
         name: messageBody['username'],
       );
