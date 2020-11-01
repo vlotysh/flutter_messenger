@@ -17,7 +17,7 @@ class MessageBubble extends StatelessWidget {
     SelectProvider selectProvider = Provider.of<SelectProvider>(context);
     List<Message> selectedItems = selectProvider.items;
     Message message = Provider.of<Message>(context);
-    bool isSelected = selectProvider.isSelected(message);
+    bool isSelected = selectProvider.isSelected(message.id);
 
     return GestureDetector(
       onLongPress: () {

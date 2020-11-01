@@ -21,6 +21,11 @@ class ChatScreen extends StatefulWidget implements AppBarActions {
 
 class _ChatScreenState extends State<ChatScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SelectProvider selectProvider = Provider.of<SelectProvider>(context);
     Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
@@ -42,7 +47,10 @@ class _ChatScreenState extends State<ChatScreen> {
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              Provider.of<SelectProvider>(context, listen: false).clean();
+              Navigator.of(context).pop();
+            },
           ),
           title: Center(
               child: selectProvider.items.length > 0

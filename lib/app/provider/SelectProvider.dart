@@ -8,16 +8,31 @@ class SelectProvider extends ChangeNotifier {
     return [..._items];
   }
 
-  bool isSelected(Message message) {
-    return _items.contains(message);
+  bool isSelected(String messageId) {
+    Message selectedMessage = _items.firstWhere(
+        (Message element) => element.id == messageId,
+        orElse: () {});
+
+    return selectedMessage != null;
+  }
+
+  Message findById(String messageId) {
+    return _items.firstWhere((Message element) => element.id == messageId,
+        orElse: () {});
   }
 
   void toggle(Message message) {
-    if (!_items.contains(message)) {
+    if (findById(message.id) == null) {
       _items.add(message);
     } else {
-      _items.remove(message);
+      _items.removeWhere((Message element) => element.id == message.id);
     }
+
+    notifyListeners();
+  }
+
+  void clean() {
+    _items = [];
 
     notifyListeners();
   }
