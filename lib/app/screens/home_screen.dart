@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:messenger/app/provider/SelectProvider.dart';
 import 'package:messenger/app/widgets/chat/chat_screen.dart';
 import 'package:messenger/app/widgets/chat/contacts_screen.dart';
 import 'package:messenger/app/widgets/chat/settings_screen.dart';
 import 'package:messenger/app/widgets/pages/app_bar_messages.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -31,12 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
         'appBar': null,
       },
     ];
-
-    SelectProvider selectProvider = Provider.of<SelectProvider>(context);
-
-    if (selectProvider.items.length > 0) {
-      _title = 'Selected ${selectProvider.items.length}';
-    }
 
     Map<String, Widget> tabWidget = _tabs[_currentIndex];
     List<Widget> appBarActions = [];

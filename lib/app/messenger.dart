@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:messenger/app/provider/ConversationProvider.dart';
 import 'package:messenger/app/provider/Messages.dart';
 import 'package:messenger/app/provider/SelectProvider.dart';
 import 'package:messenger/app/screens/auth_screen.dart';
@@ -53,6 +54,8 @@ class _MessengerState extends State<Messenger> {
           providers: [
             ListenableProvider<SelectProvider>(create: (_) => SelectProvider()),
             ListenableProvider<Messages>(create: (_) => Messages()),
+            ListenableProvider<ConversationProvider>(
+                create: (_) => ConversationProvider()),
           ],
           child: MaterialApp(
             title: 'Messenger',
