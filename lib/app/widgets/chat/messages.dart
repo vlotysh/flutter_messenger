@@ -34,7 +34,7 @@ class _MessagesState extends State<Messages> {
       FirebaseAuth.instance.currentUser().then((FirebaseUser value) {
         Firestore.instance
             .collection('chat')
-            .orderBy('createdAt', descending: true)
+            .orderBy('createdAt', descending: false)
             .where('conversationId',
                 isEqualTo: widget.conversation.conversationId)
             .snapshots()
@@ -42,6 +42,7 @@ class _MessagesState extends State<Messages> {
           final chatDocs = streamSnapshot.documents;
 
           for (int i = 0; i < chatDocs.length; i++) {
+            print(chatDocs[i]['createdAt']);
             messages.addMessage(Message(
               id: chatDocs[i].documentID,
               text: chatDocs[i]['text'],

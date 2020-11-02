@@ -36,9 +36,14 @@ class _MessageInputState extends State<MessageInput> {
 
     print(userData['avatarUrl']);
     Firestore.instance.collection('chat').add(messageBody);
+    List<dynamic> participants = widget.conversation.participants;
 
-    ConversationService().createOrUpdate(
-        messageBody, [user.uid, widget.userId], widget.conversation);
+    if (widget.userId != null) {
+      participants = [user.uid, widget.userId];
+    }
+
+    ConversationService()
+        .createOrUpdate(messageBody, participants, widget.conversation);
 
     setState(() {
       _enteredMessage = '';

@@ -6,6 +6,16 @@ class ConversationService {
 
   void loadConversation(String id) {}
 
+  Conversation _buildConversation(Map<String, dynamic> data) {
+    return Conversation(
+      conversationId: data['conversationId'],
+      avatarUrl: data['avatarUrl'],
+      name: data['name'],
+      title: data['title'],
+      participants: data['participants'],
+    );
+  }
+
   Future<Conversation> findById(String conversationId) async {
     final snapShot = await Firestore.instance
         .collection('conversations')
@@ -16,9 +26,7 @@ class ConversationService {
       return await createDefaultConversation();
     }
 
-    DocumentSnapshot document = snapShot.documents.first;
-
-    return Conversation(conversationId: document.data['conversationId']);
+    return _buildConversation(snapShot.documents.first.data);
   }
 
   Future<Conversation> findByUserId(String userId) async {
@@ -30,11 +38,7 @@ class ConversationService {
       return await createDefaultConversation();
     }
 
-    DocumentSnapshot document = snapShot.documents.first;
-
-    return Conversation(
-        conversationId:
-            document.data['conversationId']); // snapShot.documents.first.data;
+    return _buildConversation(snapShot.documents.first.data);
   }
 
   Future<Conversation> createDefaultConversation() async {
@@ -45,11 +49,12 @@ class ConversationService {
   }
 
   Future<void> createOrUpdate(Map<String, dynamic> messageBody,
-      List<String> participants, Conversation conversation) async {
+      List<dynamic> participants, Conversation conversation) async {
     final snapShot = await Firestore.instance
         .collection('conversations')
         .where('conversationId', isEqualTo: conversation.conversationId)
         .getDocuments();
+    print(participants);
 
     if (snapShot == null || snapShot.documents.length == 0) {
       conversation.participants = participants;

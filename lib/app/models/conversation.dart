@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 class Conversation {
   final String pk;
   final String conversationId;
-  List<String> participants;
+  List<dynamic> participants;
   String title;
   String name;
   String avatarUrl;
