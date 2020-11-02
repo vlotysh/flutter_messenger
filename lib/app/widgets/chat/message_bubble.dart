@@ -34,9 +34,21 @@ class MessageBubble extends StatelessWidget {
         Column(
           children: [
             Container(
-              color: isSelected ? Colors.tealAccent[200] : null,
               child: Row(
                 children: [
+                  if (selectedItems.length > 0)
+                    Checkbox(
+                      value: isSelected,
+                      onChanged: (_) {
+                        selectProvider.toggle(message);
+                        //message.toggleSelect();
+                      },
+                    ),
+                  if (!message.isMe)
+                    CircleAvatar(
+                      radius: 16,
+                      backgroundImage: NetworkImage(message.avatarUrl),
+                    ),
                   Expanded(
                     child: Container(
                         decoration: BoxDecoration(
@@ -96,14 +108,6 @@ class MessageBubble extends StatelessWidget {
             ),
           ],
         ),
-        if (!message.isMe)
-          Positioned(
-              left: 0,
-              bottom: 10,
-              child: CircleAvatar(
-                radius: 16,
-                backgroundImage: NetworkImage(message.avatarUrl),
-              )),
       ]),
     );
   }
