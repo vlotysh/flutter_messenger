@@ -10,8 +10,8 @@ class SettingsScreen extends StatefulWidget implements AppBarActions {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _isLoading = true;
-  FirebaseUser _user;
   String _userName;
+  String _id;
   String _email;
   String _avatarUrl;
 
@@ -27,8 +27,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           .then((userData) {
         setState(() {
           _isLoading = false;
-          _user = value;
           _userName = userData.data['username'];
+          _id = value.uid;
           _email = userData.data['email'];
           _avatarUrl = userData.data['avatarUrl'];
         });
@@ -43,13 +43,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ? CircularProgressIndicator()
             : Column(
                 children: [
-                  Text('Name ${_userName}'),
-                  Text('Email ${_email}'),
                   Image.network(
                     _avatarUrl,
                     width: 200,
                     fit: BoxFit.cover,
                   ),
+                  Text('ID $_id'),
+                  Text('Name $_userName'),
+                  Text('Email $_email'),
                 ],
               ));
   }

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:messenger/app/provider/ConversationProvider.dart';
 import 'package:messenger/app/provider/Messages.dart';
 import 'package:messenger/app/provider/SelectProvider.dart';
+import 'package:messenger/app/provider/UserProvider.dart';
 import 'package:messenger/app/screens/auth_screen.dart';
 import 'package:messenger/app/screens/chat_screen.dart';
 import 'package:messenger/app/screens/home_screen.dart';
@@ -56,6 +57,7 @@ class _MessengerState extends State<Messenger> {
             ListenableProvider<Messages>(create: (_) => Messages()),
             ListenableProvider<ConversationProvider>(
                 create: (_) => ConversationProvider()),
+            ListenableProvider<UserProvider>(create: (_) => UserProvider()),
           ],
           child: MaterialApp(
             title: 'Messenger',

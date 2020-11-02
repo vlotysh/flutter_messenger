@@ -1,8 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:messenger/app/models/chat_user.dart';
+import 'package:messenger/app/provider/UserProvider.dart';
 import 'package:messenger/app/widgets/chat/chat_screen.dart';
 import 'package:messenger/app/widgets/chat/contacts_screen.dart';
 import 'package:messenger/app/widgets/chat/settings_screen.dart';
 import 'package:messenger/app/widgets/pages/app_bar_messages.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,7 +16,33 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  bool _isInitialized = false;
   String _title = 'Messages';
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      FirebaseAuth.instance.currentUser().then((currentFbUser) {
+        Firestore.instance
+            .collection('users')
+            .document(currentFbUser.uid)
+            .get()
+            .then((userInfo) {
+          Provider.of<UserProvider>(context, listen: false).setUser(ChatUser(
+              id: currentFbUser.uid,
+              username: userInfo.data['username'],
+              email: userInfo.data['email'],
+              avatarUrl: userInfo.data['avatarUrl']));
+
+          setState(() {
+            _isInitialized = true;
+          });
+        });
+      });
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,19 +82,21 @@ class _HomeScreenState extends State<HomeScreen> {
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.mail),
-            title: new Text('Messages'),
+            label: 'Messages',
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.person),
-            title: new Text('Contacts'),
+            label: 'Contacts',
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.settings),
-            title: new Text('Settings'),
+            label: 'Settings',
           ),
         ],
       ),
-      body: tabWidget['body'],
+      body: _isInitialized
+          ? tabWidget['body']
+          : Center(child: CircularProgressIndicator()),
     );
   }
 
