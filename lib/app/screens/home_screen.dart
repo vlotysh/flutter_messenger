@@ -20,28 +20,31 @@ class _HomeScreenState extends State<HomeScreen> {
   String _title = 'Messages';
 
   @override
-  void initState() {
-    Future.delayed(Duration.zero, () {
-      FirebaseAuth.instance.currentUser().then((currentFbUser) {
-        Firestore.instance
-            .collection('users')
-            .document(currentFbUser.uid)
-            .get()
-            .then((userInfo) {
-          Provider.of<UserProvider>(context, listen: false).setUser(ChatUser(
-              id: currentFbUser.uid,
-              username: userInfo.data['username'],
-              email: userInfo.data['email'],
-              avatarUrl: userInfo.data['avatarUrl']));
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
-          setState(() {
-            _isInitialized = true;
-          });
+    if (_isInitialized == true) {
+      return;
+    }
+
+    FirebaseAuth.instance.currentUser().then((currentFbUser) {
+      Firestore.instance
+          .collection('users')
+          .document(currentFbUser.uid)
+          .get()
+          .then((userInfo) {
+        Provider.of<UserProvider>(context, listen: false).setUser(ChatUser(
+            id: currentFbUser.uid,
+            username: userInfo.data['username'],
+            email: userInfo.data['email'],
+            avatarUrl: userInfo.data['avatarUrl']));
+
+        setState(() {
+          _isInitialized = true;
         });
       });
     });
-
-    super.initState();
+    // TODO: implement didChangeDependencies
   }
 
   @override
