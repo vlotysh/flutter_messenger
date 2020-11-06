@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.person),
-            label: 'Contacts',
+            label: 'Contact screen',
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.settings),
