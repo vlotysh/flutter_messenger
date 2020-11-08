@@ -60,6 +60,8 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     SelectProvider selectProvider = Provider.of<SelectProvider>(context);
 
+    const String title = 'User name';
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -73,7 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Center(
             child: selectProvider.items.length > 0
                 ? Text('Selected ${selectProvider.items.length}')
-                : Text('Chat')),
+                : Text(title)),
         actions: [
           DropdownButton(
               underline: Container(),
